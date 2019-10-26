@@ -1,8 +1,8 @@
-'use strict'
+'use strict' 
 
 describe('Pruebas de Login', () => {
-    beforeEach(() =>{
-        cy.fixture('user.json').as('userData')
+    beforeEach(() =>{ // Esto indica que esta intruccion, se ejecutará antes que corra cada Test
+        cy.fixture('user.json').as('userData') // Se crea Alias json en la carpeta fixture con nombre user. Y luego se crea un alias "userData"
         cy.visit('https://www.facebook.com')
         cy.wait(2000)
         cy.screenshot('inicio')
@@ -10,26 +10,22 @@ describe('Pruebas de Login', () => {
     
       
     it.skip('Login Erroneo',() =>{ // con la instruccion .skip se pueden saltar los casos 
-        cy.get('[data-testid=royal_email]').type('fescon')
-        cy.get('[data-testid=royal_pass]').type('Aabb123456')
-        cy.contains('Iniciar sesión').click() // con contains se puede buscar el elemento por el nombre
-        cy.get('._4rbf').should('be.visible')
-        cy.wait(4000)
-        cy.visit()
-        cy.screenshot('Usuario erroneo')
-        
+        cy.get('@userData').then((userData)=>{
+            cy.get('[data-testid=royal_email]').type(userData.name)
+            cy.get('[data-testid=royal_pass]').type(userData.password)
+            cy.contains('Iniciar sesión').click() // Con contains se puede buscar el elemento por el nombre
+            cy.get('._4rbf').should('be.visible') // Se prueba usuario incorrecto. Si aparece mensaje de error el caso esta OK!
+            cy.wait(4000)
+            cy.screenshot('Usuario erroneo')
+             
+        })
+           
     })
     
-
     it('Ingresar a Login',() =>{
         cy.get('@userData').then((userData) =>{
-        cy.get('[data-testid=royal_email]').type(userData.name)
-        cy.get('[data-testid=royal_pass]').type(userData.password)
-        cy.contains('Iniciar sesión').click() // con contains se puede buscar el elemento por el nombre
-        cy.get('._4rbf').should('not.exist')
-        cy.wait(6000)
-        cy.screenshot('Usuario Ingresado')
-        
+           cy.loginUser(userData.name, userData.password) // Se crea un command en support/commands con el nombre loginUser 
+            
         })
         
     })

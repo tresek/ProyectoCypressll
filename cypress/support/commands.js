@@ -23,3 +23,12 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('loginUser', (name, password)=>{
+    cy.get('[data-testid=royal_email]').type(name)
+    cy.get('[data-testid=royal_pass]').type(password)
+    cy.contains('Iniciar sesión').click() // con contains se puede buscar el elemento por el nombre
+    cy.get('._4rbf').should('not.exist')
+    cy.wait(6000)
+    cy.screenshot('Usuario Ingresado')
+})
