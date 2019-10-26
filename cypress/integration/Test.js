@@ -1,13 +1,13 @@
 'use strict'
 
 describe('Pruebas de Login', () => {
-    
-    it('Debe cargar el Login', () =>{
+    beforeEach(() =>{
+        cy.fixture('user.json').as('userData')
         cy.visit('https://www.facebook.com')
         cy.wait(2000)
         cy.screenshot('inicio')
     })
-
+    
       
     it.skip('Login Erroneo',() =>{ // con la instruccion .skip se pueden saltar los casos 
         cy.get('[data-testid=royal_email]').type('fescon')
@@ -22,12 +22,15 @@ describe('Pruebas de Login', () => {
     
 
     it('Ingresar a Login',() =>{
-        cy.get('[data-testid=royal_email]').type('fesconetwork@gmail')
-        cy.get('[data-testid=royal_pass]').type('Aabb123456')
+        cy.get('@userData').then((userData) =>{
+        cy.get('[data-testid=royal_email]').type(userData.name)
+        cy.get('[data-testid=royal_pass]').type(userData.password)
         cy.contains('Iniciar sesión').click() // con contains se puede buscar el elemento por el nombre
         cy.get('._4rbf').should('not.exist')
         cy.wait(6000)
         cy.screenshot('Usuario Ingresado')
+        
+        })
         
     })
     
