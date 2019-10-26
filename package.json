@@ -1,0 +1,15 @@
+{
+  "name": "proyectocypress",
+  "version": "1.0.0",
+  "description": "proyectoPruebaCypress2",
+  "main": "index.js",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "freddy Escobar",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^3.5.0"
+  }
+}
